@@ -5,12 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { BsFillEyeSlashFill, BsEyeFill } from "react-icons/bs";
 import {
-  AuthCredential,
-  OAuthCredential,
   signInWithEmailAndPassword,
-  UserCredential,
 } from "firebase/auth";
-import { User } from "@firebase/auth-types";
 import { Firebase } from "../firebase/firebase";
 import firebase, { FirebaseError } from "firebase/app";
 import { useRouter } from "next/router";

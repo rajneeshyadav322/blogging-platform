@@ -2,6 +2,12 @@ import {create} from "zustand";
 import { User } from "firebase/auth";
 import { Firebase } from "../firebase/firebase";
 
+// interface customUser extends User {
+//   metadata: {
+//     country: string
+//   }
+// }
+
 interface StoreState {
   user: User | null;
 }

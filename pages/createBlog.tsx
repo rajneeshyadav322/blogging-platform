@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
@@ -15,10 +9,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Firebase } from "../firebase/firebase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import { BlogType } from "../types/BlogType";
 import { getAllDocuments } from "../utils/getAllDocuments";
 import { CategoryType } from "../types/CategoryType";
+import { useStore } from "../store/store";
 
 const BlogSchema = yup.object().shape({
   title: yup.string().required("Blog Title can't be empty"),
@@ -47,6 +47,8 @@ const CreateBlog = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [bannerImage, setBannerImage] = useState<string | null>(null);
   const router = useRouter();
+  const { user } = useStore();
+
   const ReactQuillEditor = dynamic(
     async () => {
       const { default: RQ } = await import("react-quill");
@@ -70,13 +72,11 @@ const CreateBlog = () => {
 
   const handleImageUpload = async (file: File | null) => {
     const imageRef = ref(storageRef, uuidv4());
-    const metadata = {
-      contentType: "image/jpeg",
-    };
 
     if (file) {
+      const contentType = file.type;
       try {
-        const snapshot = await uploadBytes(imageRef, file, metadata);
+        const snapshot = await uploadBytes(imageRef, file, { contentType });
         const downloadURL = await getDownloadURL(snapshot.ref);
         return downloadURL;
       } catch (error) {
@@ -128,8 +128,14 @@ const CreateBlog = () => {
   };
 
   const onSubmit = async (data: BlogType) => {
-    console.log(data);
-    await addDoc(blogsCollectionRef, data);
+    const payload = {
+      ...data,
+      views: 0,
+      createdBy: user?.uid,
+      createdAt: serverTimestamp(),
+      likes: 0,
+    };
+    await addDoc(blogsCollectionRef, payload);
     router.push("/");
   };
 

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
 import { Firebase } from "../firebase/firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 type SignUpForm = {
   firstName: string;
@@ -30,7 +31,7 @@ const validationSchema = yup.object().shape({
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -40,10 +41,31 @@ const SignUp = () => {
     resolver: yupResolver(validationSchema),
   });
 
+  const updateUser = async (data: SignUpForm, user) => {
+    await updateProfile(user, {
+      displayName: `${data.firstName} ${data.lastName}`,
+    });
+  };
+
+  const updateUserDetails = async (data: SignUpForm, user) => {
+    const userRef = doc(Firebase.db, `users/${user.uid}`);
+    await setDoc(userRef, {
+      email: data.email,
+      name: `${data?.firstName} ${data?.lastName}`,
+      joined: serverTimestamp(),
+      profile: "",
+    });
+  };
+
   const onSubmit = async (data: SignUpForm) => {
-    const {user} = await createUserWithEmailAndPassword(Firebase.auth, data.email, data.password);
-    await updateProfile(user, {displayName: `${data.firstName} ${data.lastName}`})
-    router.push('/')
+    const { user } = await createUserWithEmailAndPassword(
+      Firebase.auth,
+      data.email,
+      data.password
+    );
+
+    await Promise.all([updateUser(data, user), updateUserDetails(data, user)]);
+    router.push("/");
   };
 
   return (
@@ -117,7 +139,7 @@ const SignUp = () => {
               id="password"
               {...register("password")}
               className="p-2 rounded-md bg-primary focus:outline-none"
-              type= {showPassword ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
             />
             <div
@@ -140,7 +162,7 @@ const SignUp = () => {
               id="confirmPassword"
               {...register("confirmPassword")}
               className="p-2 rounded-md bg-primary focus:outline-none"
-              type= {showConfirmPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
             />
             <div
