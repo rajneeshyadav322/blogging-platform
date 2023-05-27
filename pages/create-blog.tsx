@@ -97,6 +97,7 @@ const CreateBlog = () => {
         if (quillRef.current) {
           const quill = quillRef.current.getEditor();
           const range = quill.getSelection();
+          if(range)
           quill.insertEmbed(range.index, "image", downloadURL, "user");
         }
       } catch (e) {
