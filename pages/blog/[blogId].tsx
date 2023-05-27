@@ -91,7 +91,7 @@ const Blog = () => {
       <div>
         <p className="font-medium text-xl text-center">Author</p>
         <div className="w-56 border-1 rounded-md relative mt-2">
-          <div className="h-20 bg-violet-400 rounded-t-md m-0"></div>
+          <div className="h-20 bg-[#6D5D6E] rounded-t-md m-0"></div>
           <div className="absolute w-full">
             <Image
               className="m-auto mt-[-32px] rounded-full "

@@ -43,10 +43,9 @@ const Profile = () => {
     };
 
     getUserDetails();
-  }, []);
+  }, [userRef]);
 
   useEffect(() => {
-    console.log(userData)
     setName(userData?.name)
     setProfile(userData?.profile)
     setCountry(userData?.country)

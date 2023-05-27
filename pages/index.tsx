@@ -13,6 +13,7 @@ import Categories from "../components/Categories";
 import { Firebase } from "../firebase/firebase";
 import { BlogType } from "../types/BlogType";
 import { getAllDocuments } from "../utils/getAllDocuments";
+import Search from "../components/Search";
 
 const Home = () => {
   const [blogs, setBlogs] = useState<BlogType[]>([]);
@@ -25,6 +26,8 @@ const Home = () => {
 
   const getBlogs = async () => {
     const blogsCollectionRef = collection(Firebase.db, "blogs");
+
+    console.log(Firebase.auth)
 
     try {
       let q;
@@ -59,8 +62,9 @@ const Home = () => {
   }, [category]);
 
   return (
-    <div className="flex justify-between mx-32 my-16 gap-16">
-      <div className="flex flex-col ">
+    <div className="flex justify-between mx-32 my-8 gap-16">
+      <div className="flex flex-col flex-grow ">
+      <Search/>
         {/* <InfiniteScroll
           dataLength={count.current}
           next={getBlogs}

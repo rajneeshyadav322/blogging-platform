@@ -4,14 +4,17 @@ import noUser from "../assets/user.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Firebase } from "../firebase/firebase";
+import Link from "next/link";
+import {navItems} from '../constant'
 
 const Navbar = () => {
   const { user, reset, getUser } = useStore();
   const router = useRouter();
+  const path = router.pathname;
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, [getUser]);
 
   const handleLogout = async () => {
     try {
@@ -23,33 +26,34 @@ const Navbar = () => {
     }
   };
 
+
+
   return (
     <>
-      <div className="flex bg-[#efefef] py-4 px-8 justify-between">
-        <div className="flex gap-4">
-          <p
-            onClick={() => router.push("/")}
-            className="px-2 py-1 hover:bg-violet-400 hover:text-white rounded-md"
-          >
-            Home
-          </p>
-          <p
-            onClick={() => router.push("/createBlog")}
-            className="px-2 py-1 hover:bg-violet-400 hover:text-white rounded-md"
-          >
-            Create Blog
-          </p>
-          <p
-            onClick={() => router.push("/about")}
-            className="px-2 py-1 hover:bg-violet-400 hover:text-white rounded-md"
-          >
-            About
-          </p>
+      <div className="flex py-4 px-8 justify-between">
+        <div className="flex gap-4 items-center">
+          {navItems?.map((val) => (
+            <Link
+              href={val.path}
+              className={`p-2 h-fit hover:bg-secondary hover:text-black duration-200 cursor-pointer rounded-md first-letter`}
+            >
+              {val.label}
+            </Link>
+          ))}
         </div>
         <div className="flex gap-4 items-center">
-          <div className="flex items-center cursor-pointer" onClick={() => router.push('/profile')}>
-            <Image width="40" height="42" className="rounded-full" src={user?.photoURL ?? noUser} alt="user" />
-            <p className="ml-2">{user?.displayName}</p>
+          <div
+            className="flex items-center cursor-pointer"
+            onClick={() => router.push("/profile")}
+          >
+            <Image
+              width="40"
+              height="42"
+              className="rounded-full"
+              src={user?.photoURL ?? noUser}
+              alt="user"
+            />
+            <p className="ml-2 text-white">{user?.displayName}</p>
           </div>
           <p className="cursor-pointer" onClick={handleLogout}>
             Logout

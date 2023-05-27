@@ -12,7 +12,7 @@ const Categories = ({ category, setCategory }) => {
       const data = await getAllDocuments(categoriesCollectionRef);
       setCategories(data);
     })();
-  }, []);
+  }, [categoriesCollectionRef]);
 
   return (
     <div className="w-48">
@@ -20,10 +20,10 @@ const Categories = ({ category, setCategory }) => {
       <div>
         {categories.map((item) => (
           <div
-            className="bg-[#efefef] px-4 py-2 w-fit cursor-pointer rounded-lg my-2"
+            className="bg-secondary px-4 py-2 w-fit cursor-pointer rounded-lg my-2"
             onClick={() => setCategory(category === item.name ? "" : item.name)}
             style={{
-              background: category === item.name ? "violet" : "",
+              background: category === item.name ? "#6D5D6E" : "",
               color: category === item.name ? "white" : ""
             }}
           >

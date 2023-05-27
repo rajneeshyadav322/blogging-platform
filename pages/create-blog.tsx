@@ -24,7 +24,6 @@ const BlogSchema = yup.object().shape({
   title: yup.string().required("Blog Title can't be empty"),
   bannerImage: yup.string().required("Banner Image is required"),
   category: yup.string().required("Blog Category can't be empty"),
-  isTrending: yup.boolean().required("It is a required field"),
   blog: yup.string().required("Blog content can't be empty"),
 });
 
@@ -208,34 +207,6 @@ const CreateBlog = () => {
           </select>
           <span className="text-xs text-red-600">
             {errors?.category?.message}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-12 flex-wrap">
-            <p>Is it a trending blog ?</p>
-            <span className="gap-2 flex flex-row">
-              <label htmlFor="yes">Yes</label>
-              <input
-                type="radio"
-                id="yes"
-                name="isTrending"
-                onChange={(e) =>
-                  setValue("isTrending", true, { shouldValidate: true })
-                }
-              />
-              <label htmlFor="yes">No</label>
-              <input
-                type="radio"
-                id="no"
-                name="isTrending"
-                onChange={(e) =>
-                  setValue("isTrending", false, { shouldValidate: true })
-                }
-              />
-            </span>
-          </div>
-          <span className="text-xs text-red-600">
-            {errors?.isTrending?.message}
           </span>
         </div>
         <div>
