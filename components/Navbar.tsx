@@ -32,8 +32,9 @@ const Navbar = () => {
     <>
       <div className="flex py-4 px-8 justify-between">
         <div className="flex gap-4 items-center">
-          {navItems?.map((val) => (
+          {navItems?.map((val, ind) => (
             <Link
+              key={ind}
               href={val.path}
               className={`p-2 h-fit hover:bg-secondary hover:text-black duration-200 cursor-pointer rounded-md first-letter`}
             >

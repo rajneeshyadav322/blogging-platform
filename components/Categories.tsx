@@ -23,8 +23,9 @@ const Categories = ({setCategory, category}: categoriesPropsType) => {
     <div className="w-48">
       <div className="text-2xl font-light">Categories</div>
       <div>
-        {categories.map((item) => (
+        {categories.map((item, ind) => (
           <div
+            key={ind}
             className="bg-secondary px-4 py-2 w-fit cursor-pointer rounded-lg my-2"
             onClick={() => setCategory(category === item.name ? "" : item.name)}
             style={{

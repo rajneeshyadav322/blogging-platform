@@ -67,7 +67,7 @@ const CreateBlog = () => {
     };
 
     getAllCategories();
-  }, []);
+  }, [categoryCollectionRef]);
 
   const handleImageUpload = async (file: File | null) => {
     const imageRef = ref(storageRef, uuidv4());

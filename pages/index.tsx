@@ -59,7 +59,7 @@ const Home = () => {
 
   useEffect(() => {
     getBlogs();
-  }, [category]);
+  }, [getBlogs, category]);
 
   return (
     <div className="flex justify-between mx-32 my-8 gap-16">
