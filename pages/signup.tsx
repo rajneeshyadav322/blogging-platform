@@ -41,13 +41,13 @@ const SignUp = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const updateUser = async (data: SignUpForm, user) => {
+  const updateUser = async (data: SignUpForm, user: any) => {
     await updateProfile(user, {
       displayName: `${data.firstName} ${data.lastName}`,
     });
   };
 
-  const updateUserDetails = async (data: SignUpForm, user) => {
+  const updateUserDetails = async (data: SignUpForm, user : any) => {
     const userRef = doc(Firebase.db, `users/${user.uid}`);
     await setDoc(userRef, {
       email: data.email,
