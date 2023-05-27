@@ -97,8 +97,8 @@ const CreateBlog = () => {
         if (quillRef.current) {
           const quill = quillRef.current.getEditor();
           const range = quill.getSelection();
-          if(range)
-          quill.insertEmbed(range.index, "image", downloadURL, "user");
+          if (range)
+            quill.insertEmbed(range.index, "image", downloadURL, "user");
         }
       } catch (e) {
         console.log(e);
@@ -143,7 +143,8 @@ const CreateBlog = () => {
     const file = e.target.files?.[0];
     if (file) {
       const downloadURL = await handleImageUpload(file);
-      setValue("bannerImage", downloadURL, { shouldValidate: true });
+      if (downloadURL)
+        setValue("bannerImage", downloadURL, { shouldValidate: true });
       setBannerImage(file?.name);
     }
   };
