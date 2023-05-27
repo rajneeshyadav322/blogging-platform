@@ -4,7 +4,12 @@ import { Firebase } from "../firebase/firebase";
 import { CategoryType } from "../types/CategoryType";
 import { getAllDocuments } from "../utils/getAllDocuments";
 
-const Categories = ({ category, setCategory }) => {
+type categoriesPropsType = {
+  category: any,
+  setCategory: any,
+}
+
+const Categories = ({setCategory, category}: categoriesPropsType) => {
   const categoriesCollectionRef = collection(Firebase.db, "category");
   const [categories, setCategories] = useState<CategoryType[]>([]);
   useEffect(() => {
