@@ -8,11 +8,11 @@ import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  if (router && !Firebase.auth.currentUser) {
+  useEffect(() => {
+  if (!Firebase.auth.currentUser) {
     router.push("/login");
   }
-  // useEffect(() => {
-  // }, [router]);
+  }, [router]);
 
   return (
     <Layout>

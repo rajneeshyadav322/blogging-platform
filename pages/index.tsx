@@ -86,8 +86,8 @@ const Home = () => {
           <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
           }
         > */}
-        {blogs.map((blog: BlogType) => (
-          <BlogCard blog={blog} />
+        {blogs.map((blog: BlogType, ind) => (
+          <BlogCard blog={blog} key={ind}/>
         ))}
         {blogs.length === 0 && (
           <div className="text-3xl text-center mt-8 flex-grow font-light">
